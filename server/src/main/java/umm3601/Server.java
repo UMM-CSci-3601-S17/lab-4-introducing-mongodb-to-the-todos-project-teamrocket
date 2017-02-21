@@ -1,5 +1,6 @@
 package umm3601;
 
+import umm3601.todo.TodoController;
 import umm3601.user.UserController;
 
 import java.io.IOException;
@@ -11,6 +12,7 @@ public class Server {
     public static void main(String[] args) throws IOException {
 
         UserController userController = new UserController();
+        TodoController todoController = new TodoController();
 
         options("/*", (request, response) -> {
 
@@ -53,6 +55,11 @@ public class Server {
         get("api/avgUserAgeByCompany", (req, res) -> {
             res.type("application/json");
             return userController.getAverageAgeByCompany();
+        });
+
+        get("api/todos", (req, res) -> {
+            res.type("application/json");
+            return todoController.listTodos(req.queryMap().toMap());
         });
 
         // Handle "404" file not found requests:
