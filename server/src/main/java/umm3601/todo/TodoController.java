@@ -11,6 +11,7 @@ import com.mongodb.client.model.Sorts;
 import com.mongodb.util.JSON;
 import org.bson.Document;
 import org.bson.types.ObjectId;
+import org.bson.conversions.Bson;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -18,6 +19,8 @@ import java.util.Iterator;
 import java.util.Map;
 
 import static com.mongodb.client.model.Filters.eq;
+import static com.mongodb.client.model.Filters.where;
+import static com.mongodb.client.model.Filters.and;
 
 public class TodoController {
 
@@ -41,29 +44,35 @@ public class TodoController {
     // List todos
     public String listTodos(Map<String, String[]> queryParams) {
         Document filterDoc = new Document();
+        Bson bodyFilter;
 
 
         if (queryParams.containsKey("owner")) {
             String targetOwner = queryParams.get("owner")[0];
             filterDoc = filterDoc.append("owner", targetOwner);
         }
+
+        if (queryParams.containsKey("category")) {
+            String targetCategory = queryParams.get("category")[0];
+            filterDoc = filterDoc.append("category", targetCategory);
+        }
+
+        if (queryParams.containsKey("status")) {
+            boolean targetStatus = queryParams.get("status")[0].equals("complete");
+            filterDoc = filterDoc.append("status", targetStatus);
+        }
+
 
         if (queryParams.containsKey("body")) {
             String targetBody = queryParams.get("body")[0];
-            filterDoc = filterDoc.append("body", targetBody);
+
+            bodyFilter = where("this.body.indexOf(\"" + targetBody + "\") !== -1;");
+            //             ^^ this is sin
+        } else {
+            bodyFilter = where("return true;");
         }
 
-        if (queryParams.containsKey("owner")) {
-            String targetOwner = queryParams.get("owner")[0];
-            filterDoc = filterDoc.append("owner", targetOwner);
-        }
-
-        if (queryParams.containsKey("owner")) {
-            String targetOwner = queryParams.get("owner")[0];
-            filterDoc = filterDoc.append("owner", targetOwner);
-        }
-
-        FindIterable<Document> matchingTodos = todoCollection.find(filterDoc);
+        FindIterable<Document> matchingTodos = todoCollection.find(and(filterDoc, bodyFilter));
 
         return JSON.serialize(matchingTodos);
     }
