@@ -81,13 +81,17 @@ public class TodoController {
     public String getTodo(String id) {
         FindIterable<Document> jsonTodos
                 = todoCollection
-                .find(eq("_id", new ObjectId(id)));
+                .find(eq("_id", id));
 
         Iterator<Document> iterator = jsonTodos.iterator();
-
-        Document todo = iterator.next();
-
-        return todo.toJson();
+        String returnval;
+        if(iterator.hasNext()) {
+            returnval= iterator.next().toJson();
+        }
+        else {
+            returnval = "";
+        }
+        return returnval;
     }
 
 //    // Get the average age of all todos by company

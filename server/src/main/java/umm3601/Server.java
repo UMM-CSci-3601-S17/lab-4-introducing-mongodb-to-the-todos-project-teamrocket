@@ -56,6 +56,13 @@ public class Server {
             res.type("application/json");
             return userController.getAverageAgeByCompany();
         });
+        
+        // See specific todo
+        get("api/todos/:id", (req, res) -> {
+            res.type("application/json");
+            String id = req.params("id");
+            return todoController.getTodo(id);
+        });
 
         get("api/todos", (req, res) -> {
             res.type("application/json");
