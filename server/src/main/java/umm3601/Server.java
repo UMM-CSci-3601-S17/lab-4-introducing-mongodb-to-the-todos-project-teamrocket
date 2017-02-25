@@ -12,7 +12,7 @@ public class Server {
     public static void main(String[] args) throws IOException {
 
         UserController userController = new UserController();
-        TodoController todoController = new TodoController();
+        TodoController todoController = new TodoController("test");
 
         options("/*", (request, response) -> {
 
