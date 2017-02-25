@@ -21,6 +21,8 @@ import java.util.Map;
 import static com.mongodb.client.model.Filters.eq;
 import static com.mongodb.client.model.Filters.where;
 import static com.mongodb.client.model.Filters.and;
+import static com.mongodb.client.model.Sorts.ascending;
+import static com.mongodb.client.model.Sorts.orderBy;
 
 public class TodoController {
 
@@ -72,7 +74,14 @@ public class TodoController {
             bodyFilter = where("return true;");
         }
 
-        FindIterable<Document> matchingTodos = todoCollection.find(and(filterDoc, bodyFilter));
+        FindIterable<Document> matchingTodos;
+
+        if (queryParams.containsKey("orderBy")) {
+            String targetOrder = queryParams.get("orderBy")[0];
+            matchingTodos = todoCollection.find(and(filterDoc, bodyFilter)).sort(orderBy(ascending(targetOrder)));
+        } else {
+            matchingTodos = todoCollection.find(and(filterDoc, bodyFilter));
+        }
 
         return JSON.serialize(matchingTodos);
     }
