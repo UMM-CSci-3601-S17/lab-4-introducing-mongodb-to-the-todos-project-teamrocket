@@ -5,6 +5,9 @@
     </li>
     <li class="list-group-item list-group-item-info">Todos</li>
     <li *ngFor="let todo of todos | filterBy: {owner: searchOwner} | filterBy: { status: targetStatus }" class="list-group-item">
-        {{ todo.owner }} is {{ user.status }} years old
+        Owner: {{ todo.owner }} <br>
+        Status: {{ todo.status }} <br>
+        Category: {{ todo.category }} <br>
+        Body: {{ todo.body }}
     </li>
 </ul>

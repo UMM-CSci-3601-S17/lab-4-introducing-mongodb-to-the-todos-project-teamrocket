@@ -5,8 +5,9 @@ import { Observable } from "rxjs";
 
 @Injectable()
 export class TodoListService {
-    private todoUrl: string = API_URL + "todos";
+    private todoUrl: string = API_URL + "todos?";
     constructor(private http:Http) { }
+
 
     getTodos(): Observable<Todo[]> {
         return this.http.request(this.todoUrl).map(res => res.json());
