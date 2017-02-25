@@ -83,7 +83,17 @@ public class TodoController {
             matchingTodos = todoCollection.find(and(filterDoc, bodyFilter));
         }
 
-        return JSON.serialize(matchingTodos);
+        long limit = 0;
+        if (queryParams.containsKey("limit")) {
+            String targetLimit = queryParams.get("limit")[0];
+            try {
+                limit = Long.parseLong(targetLimit);
+            } catch (NumberFormatException e) {
+                limit = 0;
+            }
+        }
+
+        return JSON.serialize(matchingTodos.limit((int)limit));
     }
 
     // Get a single todo
