@@ -156,4 +156,15 @@ public class TodoControllerSpec {
         assertEquals("588959858f263be0a632afe0", ((BsonString) doc.get("_id")).getValue());
     }
 
+    @Test
+    public void limitTodos() {
+        Map<String, String[]> queryMap = new HashMap<>();
+        queryMap.put("limit",new String[]{"2"});
+        String jsonResult = todoController.listTodos(queryMap);
+        BsonArray docs = parseJsonArray(jsonResult);
+
+        assertEquals("We should get exactly 2 results", 2, docs.size());
+
+    }
+
 }
