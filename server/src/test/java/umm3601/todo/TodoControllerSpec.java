@@ -80,14 +80,9 @@ public class TodoControllerSpec {
         return arrayReader.decode(reader, DecoderContext.builder().build());
     }
 
-    private static String getName(BsonValue val) {
+    private static String extractFromBson(BsonValue val, String field) {
         BsonDocument doc = val.asDocument();
-        return ((BsonString) doc.get("owner")).getValue();
-    }
-
-    private static String getCategory(BsonValue val) {
-        BsonDocument doc = val.asDocument();
-        return ((BsonString) doc.get("category")).getValue();
+        return ((BsonString) doc.get(field)).getValue();
     }
 
     @Test
@@ -99,7 +94,7 @@ public class TodoControllerSpec {
         assertEquals("Should be 4 todos", 4, docs.size());
         Set<String> names = docs
                 .stream()
-                .map(TodoControllerSpec::getName)
+                .map(x -> TodoControllerSpec.extractFromBson(x, "owner"))
                 .sorted()
                 .collect(Collectors.toSet());
         Set<String> expectedNames = new HashSet<>(Arrays.asList("Fry", "Blanche", "Workman", "Roberta"));
@@ -127,7 +122,7 @@ public class TodoControllerSpec {
 
         Set<String> names = docs
                 .stream()
-                .map(TodoControllerSpec::getName)
+                .map(x -> TodoControllerSpec.extractFromBson(x, "owner"))
                 .sorted()
                 .collect(Collectors.toSet());
         Set<String> expectedNames = new HashSet<>(Arrays.asList("Fry", "Blanche", "Workman"));
@@ -135,7 +130,7 @@ public class TodoControllerSpec {
 
         Set<String> categories = docs
                 .stream()
-                .map(TodoControllerSpec::getCategory)
+                .map(x -> TodoControllerSpec.extractFromBson(x, "category"))
                 .sorted()
                 .collect(Collectors.toSet());
         Set<String> expectedCategories = new HashSet<>(Arrays.asList("homework", "video games", "groceries"));
@@ -167,7 +162,7 @@ public class TodoControllerSpec {
 
         Set<String> names = docs
                 .stream()
-                .map(TodoControllerSpec::getName)
+                .map(x -> TodoControllerSpec.extractFromBson(x, "owner"))
                 .sorted()
                 .collect(Collectors.toSet());
         Set<String> expectedNames = new HashSet<>(Arrays.asList("Roberta", "Workman"));
