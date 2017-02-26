@@ -184,4 +184,20 @@ public class TodoControllerSpec {
 
     }
 
+    @Test
+    public void orderByOwner() {
+        Map<String, String[]> queryMap = new HashMap<>();
+        queryMap.put("orderBy",new String[]{"owner"});
+        String jsonResult = todoController.listTodos(queryMap);
+        BsonArray docs = parseJsonArray(jsonResult);
+
+        // We are using a List instead of a set because ORDER MATTERS HERE
+        List<String> owners = docs
+                .stream()
+                .map(x -> TodoControllerSpec.extractFromBson(x, "owner"))
+                .sorted()
+                .collect(Collectors.toList());
+        assertEquals(Arrays.asList("Blanche", "Fry", "Roberta", "Workman"), owners);
+    }
+
 }
