@@ -92,13 +92,13 @@ public class TodoControllerSpec {
         BsonArray docs = parseJsonArray(jsonResult);
 
         assertEquals("Should be 4 todos", 4, docs.size());
-        Set<String> names = docs
+        Set<String> owners = docs
                 .stream()
                 .map(x -> TodoControllerSpec.extractFromBson(x, "owner"))
                 .sorted()
                 .collect(Collectors.toSet());
         Set<String> expectedNames = new HashSet<>(Arrays.asList("Fry", "Blanche", "Workman", "Roberta"));
-        assertEquals("Names should match", expectedNames, names);
+        assertEquals("Names should match", expectedNames, owners);
     }
 
     @Test
@@ -120,13 +120,13 @@ public class TodoControllerSpec {
 
         assertEquals("Should be 3 todos", 3, docs.size());
 
-        Set<String> names = docs
+        Set<String> owners = docs
                 .stream()
                 .map(x -> TodoControllerSpec.extractFromBson(x, "owner"))
                 .sorted()
                 .collect(Collectors.toSet());
         Set<String> expectedNames = new HashSet<>(Arrays.asList("Fry", "Blanche", "Workman"));
-        assertEquals(expectedNames, names);
+        assertEquals(expectedNames, owners);
 
         Set<String> categories = docs
                 .stream()
@@ -160,13 +160,13 @@ public class TodoControllerSpec {
 
         assertEquals("We should get 2 results", 2, docs.size());
 
-        Set<String> names = docs
+        Set<String> owners = docs
                 .stream()
                 .map(x -> TodoControllerSpec.extractFromBson(x, "owner"))
                 .sorted()
                 .collect(Collectors.toSet());
         Set<String> expectedNames = new HashSet<>(Arrays.asList("Roberta", "Workman"));
-        assertEquals(expectedNames, names);
+        assertEquals(expectedNames, owners);
     }
 
     @Test
