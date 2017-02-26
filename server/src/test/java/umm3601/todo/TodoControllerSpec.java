@@ -56,7 +56,7 @@ public class TodoControllerSpec {
         testTodos.add(Document.parse("{"
                         + "_id: \"58895985d720b8016900726c\","
                         + "owner: \"Roberta\","
-                        + "status: true,"
+                        + "status: false,"
                         + "body: \"Occaecat sint enim velit aute sit non laboris ipsum cillum aute anim veniam. Dolor reprehenderit aliquip ullamco eiusmod ut sint deserunt aliqua.\","
                         + "category: \"groceries\""
                         + "}"));
