@@ -14,13 +14,9 @@ import org.bson.types.ObjectId;
 import org.bson.conversions.Bson;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
-import static com.mongodb.client.model.Filters.eq;
-import static com.mongodb.client.model.Filters.where;
-import static com.mongodb.client.model.Filters.and;
+import static com.mongodb.client.model.Filters.*;
 import static com.mongodb.client.model.Sorts.ascending;
 import static com.mongodb.client.model.Sorts.orderBy;
 
@@ -93,7 +89,7 @@ public class TodoController {
             }
         }
 
-        return JSON.serialize(matchingTodos.limit((int)limit));
+        return JSON.serialize(matchingTodos.limit((int) limit));
     }
 
     // Get a single todo
@@ -104,16 +100,15 @@ public class TodoController {
 
         Iterator<Document> iterator = jsonTodos.iterator();
         String returnval;
-        if(iterator.hasNext()) {
-            returnval= iterator.next().toJson();
-        }
-        else {
+        if (iterator.hasNext()) {
+            returnval = iterator.next().toJson();
+        } else {
             returnval = "";
         }
         return returnval;
     }
 
-//    // Get the average age of all todos by company
+    //    // Get the average age of all todos by company
 //    public String getAverageAgeByCompany() {
 //        AggregateIterable<Document> documents
 //                = todoCollection.aggregate(
@@ -121,9 +116,51 @@ public class TodoController {
 //                        Aggregates.group("$company",
 //                                Accumulators.avg("averageAge", "$age")),
 //                        Aggregates.sort(Sorts.ascending("_id"))
-//                ));
+//                    public String getAverageAgeByCompany() {));
 //        System.err.println(JSON.serialize(documents));
 //        return JSON.serialize(documents);
 //    }
+
+            /// below is a list of counts for the summary of todos to calculate percentages.
+    public long returnNumComplete() {
+        Document countDoc = new Document();
+        countDoc.append("status", true);
+        long totalTrueStat = todoCollection.count(countDoc);
+        return totalTrueStat;
+    }
+
+
+
+//    public List<Long> returnNumCompleteCategory(List<String> allCategories) {
+//        List<Long> countsOfCompletePerCategory = new ArrayList<Long>();
+//        for(String category: allCategories) {
+//
+//        }
+//        Document countDoc = new Document();
+//        countDoc.append("status", true);
+//        long[] totalTrueStat = todoCollection.count(countDoc);
+//        return totalTrueStat;
+//    }
+
+
+    public String todoSummary() {
+        long totalCount = todoCollection.count();
+        long completeTodos = returnNumComplete();
+        float percentComplete = (float)completeTodos/(float)totalCount;
+        AggregateIterable<Document> todoSummaryDoc
+                = todoCollection.aggregate(
+                Arrays.asList(
+                        Aggregates.group("$category")
+                ));
+        List<String> allCategories = new ArrayList<>();
+        for (Document doc: todoSummaryDoc) {
+            allCategories.add(doc.getString("_id"));
+        }
+        System.err.println(JSON.serialize(todoSummaryDoc));
+
+        String returnString = "{\"percentToDosComplete\": " + JSON.serialize(percentComplete) + ","
+                + "\"categoriesPercentCompelete\": {" + JSON.serialize(todoSummaryDoc);
+        return returnString;
+    }
 
 }
