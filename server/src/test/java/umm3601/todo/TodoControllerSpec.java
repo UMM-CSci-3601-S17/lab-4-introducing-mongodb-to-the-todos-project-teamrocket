@@ -144,9 +144,4 @@ public class TodoControllerSpec {
 
     }
 
-    @Test
-    public void failingTest() {
-        // A failing test to make sure CI detects that properly
-        assertEquals(true, false);
-    }
 }
