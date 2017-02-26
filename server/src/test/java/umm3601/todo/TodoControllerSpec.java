@@ -175,6 +175,18 @@ public class TodoControllerSpec {
     }
 
     @Test
+    public void getTodosByBody() {
+        Map<String, String[]> queryMap = new HashMap<>();
+        queryMap.put("body",new String[]{"Lorem"});
+        String jsonResult = todoController.listTodos(queryMap);
+        BsonArray docs = parseJsonArray(jsonResult);
+        BsonDocument doc = docs.get(0).asDocument();
+
+        assertEquals("We should only get one result", 1, docs.size());
+        assertEquals("588959858f263be0a632afe0", ((BsonString) doc.get("_id")).getValue());
+    }
+
+    @Test
     public void limitTodos() {
         Map<String, String[]> queryMap = new HashMap<>();
         queryMap.put("limit",new String[]{"2"});
