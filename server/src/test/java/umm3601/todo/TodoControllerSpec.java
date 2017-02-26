@@ -157,6 +157,24 @@ public class TodoControllerSpec {
     }
 
     @Test
+    public void getTodosByCategory() {
+        Map<String, String[]> queryMap = new HashMap<>();
+        queryMap.put("category",new String[]{"groceries"});
+        String jsonResult = todoController.listTodos(queryMap);
+        BsonArray docs = parseJsonArray(jsonResult);
+
+        assertEquals("We should get 2 results", 2, docs.size());
+
+        Set<String> names = docs
+                .stream()
+                .map(TodoControllerSpec::getName)
+                .sorted()
+                .collect(Collectors.toSet());
+        Set<String> expectedNames = new HashSet<>(Arrays.asList("Roberta", "Workman"));
+        assertEquals(expectedNames, names);
+    }
+
+    @Test
     public void limitTodos() {
         Map<String, String[]> queryMap = new HashMap<>();
         queryMap.put("limit",new String[]{"2"});
