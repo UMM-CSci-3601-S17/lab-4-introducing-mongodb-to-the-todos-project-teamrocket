@@ -85,6 +85,11 @@ public class TodoControllerSpec {
         return ((BsonString) doc.get("owner")).getValue();
     }
 
+    private static String getCategory(BsonValue val) {
+        BsonDocument doc = val.asDocument();
+        return ((BsonString) doc.get("category")).getValue();
+    }
+
     @Test
     public void getAllTodos(){
         Map<String, String[]> emptyMap = new HashMap<>();
@@ -109,6 +114,34 @@ public class TodoControllerSpec {
         assertEquals("Name should be \"Fry\"", "Fry", doc0.getString("owner"));
         assertEquals("Status should be true", true, doc0.getBoolean("status"));
         assertEquals("Category should be homework", "homework", doc0.getString("category"));
+    }
+
+    @Test
+    public void getTodosByStatus() {
+        Map<String, String[]> queryMap = new HashMap<>();
+        queryMap.put("status",new String[]{"complete"});
+        String jsonResult = todoController.listTodos(queryMap);
+        BsonArray docs = parseJsonArray(jsonResult);
+
+        assertEquals("Should be 3 todos", 3, docs.size());
+
+        Set<String> names = docs
+                .stream()
+                .map(TodoControllerSpec::getName)
+                .sorted()
+                .collect(Collectors.toSet());
+        Set<String> expectedNames = new HashSet<>(Arrays.asList("Fry", "Blanche", "Workman"));
+        assertEquals(expectedNames, names);
+
+        Set<String> categories = docs
+                .stream()
+                .map(TodoControllerSpec::getCategory)
+                .sorted()
+                .collect(Collectors.toSet());
+        Set<String> expectedCategories = new HashSet<>(Arrays.asList("homework", "video games", "groceries"));
+        assertEquals(expectedCategories, categories);
+
+
     }
 
     @Test
