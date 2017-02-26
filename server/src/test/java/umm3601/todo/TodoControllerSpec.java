@@ -32,7 +32,8 @@ public class TodoControllerSpec {
         MongoCollection<Document> todoDocuments = db.getCollection("todos");
         todoDocuments.drop();
         List<Document> testTodos = new ArrayList<>();
-        testTodos.add(Document.parse("{ \"_id\": \"58895985ae3b752b124e7663\","
+        testTodos.add(Document.parse("{"
+                        + "_id: \"58895985ae3b752b124e7663\","
                         + "owner: \"Fry\","
                         + "status: true,"
                         + "body: \"Ullamco irure laborum magna dolor non. Anim occaecat adipisicing cillum eu magna in.\","
