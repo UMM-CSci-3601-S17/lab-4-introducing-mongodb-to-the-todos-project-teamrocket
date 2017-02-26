@@ -100,4 +100,14 @@ public class TodoControllerSpec {
         Set<String> expectedNames = new HashSet<>(Arrays.asList("Fry", "Blanche", "Workman", "Roberta"));
         assertEquals("Names should match", expectedNames, names);
     }
+
+    @Test
+    public void getTodosByID() {
+        String id0 = "58895985ae3b752b124e7663";
+        String jsonResult = todoController.getTodo(id0);
+        Document doc0 = Document.parse(jsonResult);
+        assertEquals("Name should be \"Fry\"", "Fry", doc0.getString("owner"));
+        assertEquals("Status should be true", true, doc0.getBoolean("status"));
+        assertEquals("Category should be homework", "homework", doc0.getString("category"));
+    }
 }
