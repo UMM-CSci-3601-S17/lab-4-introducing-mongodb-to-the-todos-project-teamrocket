@@ -110,4 +110,10 @@ public class TodoControllerSpec {
         assertEquals("Status should be true", true, doc0.getBoolean("status"));
         assertEquals("Category should be homework", "homework", doc0.getString("category"));
     }
+
+    @Test
+    public void failingTest() {
+        // A failing test to make sure CI detects that properly
+        assertEquals(true, false);
+    }
 }
