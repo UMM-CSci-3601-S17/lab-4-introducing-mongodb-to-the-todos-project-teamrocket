@@ -144,4 +144,16 @@ public class TodoControllerSpec {
 
     }
 
+    @Test
+    public void getTodosByOwner() {
+        Map<String, String[]> queryMap = new HashMap<>();
+        queryMap.put("owner",new String[]{"Blanche"});
+        String jsonResult = todoController.listTodos(queryMap);
+        BsonArray docs = parseJsonArray(jsonResult);
+        BsonDocument doc = docs.get(0).asDocument();
+
+        assertEquals("We should only get one result", 1, docs.size());
+        assertEquals("588959858f263be0a632afe0", ((BsonString) doc.get("_id")).getValue());
+    }
+
 }
