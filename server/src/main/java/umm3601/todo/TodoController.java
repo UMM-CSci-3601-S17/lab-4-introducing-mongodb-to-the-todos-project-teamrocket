@@ -5,12 +5,9 @@ import com.mongodb.client.AggregateIterable;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
-import com.mongodb.client.model.Accumulators;
 import com.mongodb.client.model.Aggregates;
-import com.mongodb.client.model.Sorts;
 import com.mongodb.util.JSON;
 import org.bson.Document;
-import org.bson.types.ObjectId;
 import org.bson.conversions.Bson;
 
 import java.io.IOException;
@@ -121,6 +118,21 @@ public class TodoController {
 //        return JSON.serialize(documents);
 //    }
 
+
+
+    public List<String> eachUniqueInField(String field) {
+        AggregateIterable<Document> todoSummaryDoc
+                = todoCollection.aggregate(
+                Arrays.asList(
+                        Aggregates.group(field)
+                ));
+        List<String> allCategories = new ArrayList<>();
+        for (Document doc: todoSummaryDoc) {
+            allCategories.add(doc.getString("_id"));
+        }
+        return allCategories;
+    }
+
             /// below is a list of counts for the summary of todos to calculate percentages.
     public long returnNumComplete() {
         Document countDoc = new Document();
@@ -129,6 +141,21 @@ public class TodoController {
         return totalTrueStat;
     }
 
+    public long categoryTotal(String category) {
+        Document countDoc = new Document();
+        countDoc.append("category", category);
+        return todoCollection.count(countDoc);
+    }
+
+    public long categoryComplete(String category) {
+        Document countDoc = new Document();
+        countDoc.append("category", category);
+        countDoc.append("status", true);
+        return todoCollection.count(countDoc);
+    }
+
+
+
 
 
 //    public List<Long> returnNumCompleteCategory(List<String> allCategories) {
@@ -136,10 +163,14 @@ public class TodoController {
 //        for(String category: allCategories) {
 //
 //        }
+//        List<Long> totalOfEachCategory = new ArrayList<Long>();
+//        for(String category: allCategories) {
+//
+//        }
 //        Document countDoc = new Document();
 //        countDoc.append("status", true);
-//        long[] totalTrueStat = todoCollection.count(countDoc);
-//        return totalTrueStat;
+//        long[] totalTrueStaturnNumCous = todoCollection.count(countDoc);
+//        return totalTrueStatus;
 //    }
 
 
@@ -147,19 +178,24 @@ public class TodoController {
         long totalCount = todoCollection.count();
         long completeTodos = returnNumComplete();
         float percentComplete = (float)completeTodos/(float)totalCount;
-        AggregateIterable<Document> todoSummaryDoc
-                = todoCollection.aggregate(
-                Arrays.asList(
-                        Aggregates.group("$category")
-                ));
-        List<String> allCategories = new ArrayList<>();
-        for (Document doc: todoSummaryDoc) {
-            allCategories.add(doc.getString("_id"));
+//        AggregateIterable<Document> todoSummaryDoc
+//                = todoCollection.aggregate(
+//                Arrays.asList(
+//                        Aggregates.group("$category")
+//                ));
+//        List<String> allCategories = new ArrayList<>();
+//        for (Document doc: todoSummaryDoc) {
+//            allCategories.add(doc.getString("_id"));
+//        }
+        System.err.println(JSON.serialize(eachUniqueInField("$category")));
+        List<String> allTheCategories = eachUniqueInField("$category");
+        for(String category: allTheCategories) {
+            System.out.println(categoryComplete(category));
+            System.out.println(categoryTotal(category));
         }
-        System.err.println(JSON.serialize(todoSummaryDoc));
 
         String returnString = "{\"percentToDosComplete\": " + JSON.serialize(percentComplete) + ","
-                + "\"categoriesPercentCompelete\": {" + JSON.serialize(todoSummaryDoc);
+                + "\"categoriesPercentCompelete\": {" + JSON.serialize(eachUniqueInField("$category"));
         return returnString;
     }
 
