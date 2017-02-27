@@ -14,6 +14,7 @@ import { routing } from './app/app.routes';
 import { FormsModule } from '@angular/forms';
 
 import { PipeModule } from './pipe.module';
+import {TodoSummaryComponent} from "./app/todos/todo-summary.component";
 
 @NgModule({
     imports: [
@@ -30,9 +31,10 @@ import { PipeModule } from './pipe.module';
         HomeComponent,
         NavbarComponent,
         UserListComponent,
-        TodoListComponent
+        TodoListComponent,
+        TodoSummaryComponent
     ],
-    providers: [ UserListService, TodoListService ],
+    providers: [ UserListService, TodoListService, TodoSummaryComponent ],
     bootstrap: [ AppComponent ]
 })
 
