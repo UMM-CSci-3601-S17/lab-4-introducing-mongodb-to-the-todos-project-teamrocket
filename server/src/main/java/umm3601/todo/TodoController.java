@@ -154,6 +154,18 @@ public class TodoController {
         return todoCollection.count(countDoc);
     }
 
+    public String categoriesPercentComplete(List<String> categories) {
+        String returnString = "";
+        for(int i = 0; i < categories.size(); i++) {
+            String category = categories.get(i);
+            returnString = returnString + "\"" + category + "\"" + " : " + (float)categoryComplete(category)/(float)categoryTotal(category);
+            if(i != categories.size() - 1) {
+                returnString = returnString + ",";
+            }
+        }
+        return returnString;
+    }
+
 
 
 
@@ -189,13 +201,9 @@ public class TodoController {
 //        }
         System.err.println(JSON.serialize(eachUniqueInField("$category")));
         List<String> allTheCategories = eachUniqueInField("$category");
-        for(String category: allTheCategories) {
-            System.out.println(categoryComplete(category));
-            System.out.println(categoryTotal(category));
-        }
 
         String returnString = "{\"percentToDosComplete\": " + JSON.serialize(percentComplete) + ","
-                + "\"categoriesPercentCompelete\": {" + JSON.serialize(eachUniqueInField("$category"));
+                + "\"categoriesPercentCompelete\": {" + categoriesPercentComplete(allTheCategories) + "}}";
         return returnString;
     }
 
