@@ -208,6 +208,12 @@ public class TodoControllerSpec {
                 expectedResults1, actualResults1);
     }
 
+    @Test
+    public void returnNumCompleteT() {
+        assertEquals("Should return all 3, for 3 true statuses",
+                3 , todoController.returnNumComplete());
+    }
+
 
 
 }
