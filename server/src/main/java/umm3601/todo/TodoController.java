@@ -141,24 +141,13 @@ public class TodoController {
         return totalTrueStat;
     }
 
-    public long categoryTotal(String category) {
-        Document countDoc = new Document();
-        countDoc.append("category", category);
-        return todoCollection.count(countDoc);
-    }
-
-    public long categoryComplete(String category) {
-        Document countDoc = new Document();
-        countDoc.append("category", category);
-        countDoc.append("status", true);
-        return todoCollection.count(countDoc);
-    }
 
     public String categoriesPercentComplete(List<String> categories) {
         String returnString = "";
         for(int i = 0; i < categories.size(); i++) {
             String category = categories.get(i);
-            returnString = returnString + "\"" + category + "\"" + " : " + (float)categoryComplete(category)/(float)categoryTotal(category);
+            returnString = returnString + "\"" + category + "\"" + " : " +
+                    (float)fieldComplete("category",category)/(float)fieldTotalMatching("category",category);
             if(i != categories.size() - 1) {
                 returnString = returnString + ",";
             }
@@ -166,24 +155,26 @@ public class TodoController {
         return returnString;
     }
 
-    public long ownerTotal(String owner) {
+    public long fieldTotalMatching(String field, String val) {
         Document countDoc = new Document();
-        countDoc.append("owner", owner);
+        countDoc.append(field, val);
         return todoCollection.count(countDoc);
     }
 
-    public long ownerComplete(String owner) {
+    public long fieldComplete(String field, String val) {
         Document countDoc = new Document();
-        countDoc.append("owner", owner);
+        countDoc.append(field, val);
         countDoc.append("status", true);
         return todoCollection.count(countDoc);
     }
+
 
     public String ownersPercentComplete(List<String> owners) {
         String returnString = "";
         for(int i = 0; i < owners.size(); i++) {
             String owner = owners.get(i);
-            returnString = returnString + "\"" + owner + "\"" + " : " + (float)ownerComplete(owner)/(float)ownerTotal(owner);
+            returnString = returnString + "\"" + owner + "\"" + " : " +
+                    (float)fieldComplete("owner", owner)/(float)fieldTotalMatching("owner", owner);
             if(i != owners.size() - 1) {
                 returnString = returnString + ",";
             }
@@ -192,36 +183,11 @@ public class TodoController {
     }
 
 
-//    public List<Long> returnNumCompleteCategory(List<String> allCategories) {
-//        List<Long> countsOfCompletePerCategory = new ArrayList<Long>();
-//        for(String category: allCategories) {
-//
-//        }
-//        List<Long> totalOfEachCategory = new ArrayList<Long>();
-//        for(String category: allCategories) {
-//
-//        }
-//        Document countDoc = new Document();
-//        countDoc.append("status", true);
-//        long[] totalTrueStaturnNumCous = todoCollection.count(countDoc);
-//        return totalTrueStatus;
-//    }
-
 
     public String todoSummary() {
         long totalCount = todoCollection.count();
         long completeTodos = returnNumComplete();
         float percentComplete = (float)completeTodos/(float)totalCount;
-//        AggregateIterable<Document> todoSummaryDoc
-//                = todoCollection.aggregate(
-//                Arrays.asList(
-//                        Aggregates.group("$category")
-//                ));
-//        List<String> allCategories = new ArrayList<>();
-//        for (Document doc: todoSummaryDoc) {
-//            allCategories.add(doc.getString("_id"));
-//        }
-        System.err.println(JSON.serialize(eachUniqueInField("$category")));
         List<String> allTheCategories = eachUniqueInField("$category");
         List<String> allTheOwners = eachUniqueInField("$owner");
 
