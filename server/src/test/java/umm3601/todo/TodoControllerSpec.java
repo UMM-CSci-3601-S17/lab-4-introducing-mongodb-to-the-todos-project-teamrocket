@@ -226,13 +226,26 @@ public class TodoControllerSpec {
     public void fieldTotalMatchingT() {
         assertEquals("Should return total number of Frys in this class",
                 1, todoController.fieldTotalMatching("owner", "Fry"));
-        assertEquals("Should return total number of Frys in this class",
+        assertEquals("Should return total number of Blanches in this class",
                 1, todoController.fieldTotalMatching("owner", "Blanche"));
-        assertEquals("Should return total number of Frys in this class",
+        assertEquals("Should return total number of Workmen in this class",
                 1, todoController.fieldTotalMatching("owner", "Workman"));
-        assertEquals("Should return total number of Frys in this class",
+        assertEquals("Should return total number of Robertas in this class",
                 1, todoController.fieldTotalMatching("owner", "Roberta"));
     }
+
+    @Test
+    public void fieldCompleteT() {
+        assertEquals("Should return number of complete todos from Fry",
+                1, todoController.fieldComplete("owner", "Fry"));
+        assertEquals("Should return number of complete todos from Blanche",
+                1, todoController.fieldComplete("owner", "Blanche"));
+        assertEquals("Should return number of complete todos from Workman",
+                1, todoController.fieldComplete("owner", "Workman"));
+        assertEquals("Should return number of complete todos from Roberta",
+                0, todoController.fieldComplete("owner", "Roberta"));
+    }
+
 
 
 
