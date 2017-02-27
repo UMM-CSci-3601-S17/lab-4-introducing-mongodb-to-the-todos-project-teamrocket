@@ -14,6 +14,7 @@ import {forEach} from "@angular/router/src/utils/collection";
 export class TodoListComponent implements OnInit {
     public todos: Todo[];
     public worked = false;
+    public newTodos: Todo[] = [];
 
     constructor(private todoListService: TodoListService) {
         //this.todos = this.todoListService.getTodos();
@@ -24,28 +25,31 @@ export class TodoListComponent implements OnInit {
             todos => this.todos = todos,
             err => {
                 console.log(err);
-            }
-        );
+            })
     }
 
-    public clicked(owner: string, status: string, category: string, body: string): void {
+    public clicked(owner: string, status: string, category: string, body: string): Todo[] {
         let i = 0;
-        let todoArray: Todo[] = [];
+        var todoArray: Todo[];
+
 
         this.todoListService.filterTodos("Blanche", "sunt", "incomplete", "software design").subscribe(
-            todos => todoArray[i++] = todos,
+            todos => { this.newTodos = todos;
+                    console.log('foo');
+                    console.log(todos);
+                    console.log(typeof todos);
+                    console.log(this.newTodos);
+            },
             err => {
                 console.log(err);
             }
         );
-        i = 0;
 
-        for (let todo of todoArray){
-            this.todos[i++] = todo;
-        }
+        console.log(i);
+        // console.log(todoArray); //currently prints an array of arrays???
+        console.log(typeof todoArray); //currently prints object for some reason
+        // console.log(todoArray[0]);
 
-
-        console.log(todoArray);
-        console.log(this.todos);
+        return this.newTodos;
     }
 }
