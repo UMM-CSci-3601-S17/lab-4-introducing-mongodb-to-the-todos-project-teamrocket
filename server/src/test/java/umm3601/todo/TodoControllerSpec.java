@@ -200,4 +200,67 @@ public class TodoControllerSpec {
         assertEquals(Arrays.asList("Blanche", "Fry", "Roberta", "Workman"), owners);
     }
 
+    @Test
+    public void eachUniqueInFieldT() {
+        Set<String> actualResults1 = new HashSet<>(todoController.eachUniqueInField("$owner"));
+        Set<String> expectedResults1 = new HashSet<>(Arrays.asList("Fry", "Blanche", "Workman", "Roberta"));
+        assertEquals("Should return all 4 owners in this test file",
+                expectedResults1, actualResults1);
+    }
+
+    @Test
+    public void returnNumCompleteT() {
+        assertEquals("Should return all 3, for 3 true statuses",
+                3 , todoController.returnNumComplete());
+    }
+
+    @Test
+    public void categoryPercentCompleteT() {
+        String actualResults1 = todoController.categoriesPercentComplete(Arrays.asList("homework", "video games", "groceries"));
+        String expectedResults1 = "\"homework\" : 1.0,\"video games\" : 1.0,\"groceries\" : 0.5";
+        assertEquals("Should return percent of each category complete",
+                expectedResults1, actualResults1);
+    }
+
+    @Test
+    public void fieldTotalMatchingT() {
+        assertEquals("Should return total number of Frys in this class",
+                1, todoController.fieldTotalMatching("owner", "Fry"));
+        assertEquals("Should return total number of Blanches in this class",
+                1, todoController.fieldTotalMatching("owner", "Blanche"));
+        assertEquals("Should return total number of Workmen in this class",
+                1, todoController.fieldTotalMatching("owner", "Workman"));
+        assertEquals("Should return total number of Robertas in this class",
+                1, todoController.fieldTotalMatching("owner", "Roberta"));
+    }
+
+    @Test
+    public void fieldCompleteT() {
+        assertEquals("Should return number of complete todos from Fry",
+                1, todoController.fieldComplete("owner", "Fry"));
+        assertEquals("Should return number of complete todos from Blanche",
+                1, todoController.fieldComplete("owner", "Blanche"));
+        assertEquals("Should return number of complete todos from Workman",
+                1, todoController.fieldComplete("owner", "Workman"));
+        assertEquals("Should return number of complete todos from Roberta",
+                0, todoController.fieldComplete("owner", "Roberta"));
+    }
+
+    @Test
+    public void ownersPercentCompleteT() {
+        String actualResults1 = todoController.ownersPercentComplete(Arrays.asList("Fry", "Blanche", "Workman", "Roberta"));
+        String expectedResults1 = "\"Fry\" : 1.0,\"Blanche\" : 1.0,\"Workman\" : 1.0,\"Roberta\" : 0.0";
+        assertEquals("Should return percent complete for each owner",
+                expectedResults1, actualResults1);
+    }
+
+    @Test
+    public void todoSummaryT() {
+        String actualResults1 = todoController.todoSummary();
+        String expectedResults1 = "{\"percentToDosComplete\": 0.75,\"categoriesPercentComplete\": " +
+                "{\"groceries\" : 0.5,\"video games\" : 1.0,\"homework\" : 1.0},\"ownersPercentComplete\": " +
+                "{\"Roberta\" : 0.0,\"Workman\" : 1.0,\"Blanche\" : 1.0,\"Fry\" : 1.0}}";
+        assertEquals("Should return The summary for this set of To-dos",
+                expectedResults1, actualResults1);
+    }
 }
