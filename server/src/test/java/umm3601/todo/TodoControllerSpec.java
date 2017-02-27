@@ -200,4 +200,14 @@ public class TodoControllerSpec {
         assertEquals(Arrays.asList("Blanche", "Fry", "Roberta", "Workman"), owners);
     }
 
+    @Test
+    public void eachUniqueInFieldT() {
+        Set<String> actualResults1 = new HashSet<>(todoController.eachUniqueInField("$owner"));
+        Set<String> expectedResults1 = new HashSet<>(Arrays.asList("Fry", "Blanche", "Workman", "Roberta"));
+        assertEquals("Should return all 4 owners in this test file",
+                expectedResults1, actualResults1);
+    }
+
+
+
 }

@@ -105,7 +105,7 @@ public class TodoController {
         return returnval;
     }
 
-
+    //The field value must only contain strings.
     public List<String> eachUniqueInField(String field) {
         AggregateIterable<Document> todoSummaryDoc
                 = todoCollection.aggregate(
