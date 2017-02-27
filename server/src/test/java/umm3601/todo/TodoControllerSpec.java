@@ -214,6 +214,14 @@ public class TodoControllerSpec {
                 3 , todoController.returnNumComplete());
     }
 
+    @Test
+    public void categoryPercentCompleteT() {
+        String actualResults1 = todoController.categoriesPercentComplete(Arrays.asList("homework", "video games", "groceries"));
+        String expectedResults1 = "\"homework\" : 1.0,\"video games\" : 1.0,\"groceries\" : 0.5";
+        assertEquals("Should return percent of each category complete",
+                expectedResults1, actualResults1);
+    }
+
 
 
 }
