@@ -263,10 +263,4 @@ public class TodoControllerSpec {
         assertEquals("Should return The summary for this set of To-dos",
                 expectedResults1, actualResults1);
     }
-
-
-
-
-
-
 }
