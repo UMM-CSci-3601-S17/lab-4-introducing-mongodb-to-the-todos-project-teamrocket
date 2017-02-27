@@ -1,11 +1,24 @@
 <ul class="list-group">
     <li class="list-group-item list-group-item-info">
         <input #input type="text" placeholder="owner" (input)="owner = $event.target.value">
-        <input #input type="number" placeholder="status" (input)="status = $event.target.value">
         <input #input type="text" placeholder="Category" (input)="category = $event.target.value">
-        <input #input type="text" placeholder="Filter by Body" (input)="body = $event.target.value">
-        <input #input type="button" value="Search" (click)="clickArray = this.clicked(owner, status, category, body)">
-        {{ worked }}
+        <input #input type="text" placeholder="Filter by Body" (input)="bodyContains = $event.target.value">
+        <input #input type="text" placeholder="Limit" (input)="limit = $event.target.value">
+        <select #input  (input) = "todoStatus= $event.target.value">
+            <option value = "">Status</option>
+            <option value = "complete">Complete</option>
+            <option value = "incomplete">Incomplete</option>
+        </select>
+        <select #input  (input) = "order = $event.target.value">
+            <option value = "">Order</option>
+            <option value = "owner">Owner</option>
+            <option value = "category">Category</option>
+            <option value = "body">Body</option>
+            <option value = "status">Status</option>
+        </select>
+        <input #input type="button" value="Search" (click)="clickArray = this.clicked(owner, todoStatus, category,
+        bodyContains, order, limit)">
+
     </li>
     <li *ngFor="let todo of newTodos" class="list-group-item">
         Owner: {{ todo.owner }} <br>

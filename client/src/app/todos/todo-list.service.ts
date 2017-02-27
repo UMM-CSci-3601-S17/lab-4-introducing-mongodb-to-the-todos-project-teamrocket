@@ -18,9 +18,10 @@ export class TodoListService {
         return this.http.request(this.todoUrl + "/" + id).map(res => res.json());
     }
 
-    filterTodos(owner: string, body: string, status: string, category: string): Observable<Todo[]> {
+    filterTodos(owner: string, body: string, status: string, category: string, orderBy: string, limit: string):
+    Observable<Todo[]> {
         return this.http.request(this.todoUrl + "?" + "owner=" + owner + "&status=" + status + "&body=" + body +
-            "&category=" + category).map(res => res.json());
+            "&category=" + category + "&orderBy=" + orderBy + "&limit=" + limit).map(res => res.json());
 
     }
 }
