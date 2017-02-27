@@ -44,7 +44,7 @@ public class TodoController {
 
         if (queryParams.containsKey("owner") && !queryParams.get("owner")[0].equals("")) {
             String targetOwner = queryParams.get("owner")[0];
-                filterDoc = filterDoc.append("owner", targetOwner);
+            filterDoc = filterDoc.append("owner", targetOwner);
         }
 
         if (queryParams.containsKey("category") && !queryParams.get("category")[0].equals("")) {
