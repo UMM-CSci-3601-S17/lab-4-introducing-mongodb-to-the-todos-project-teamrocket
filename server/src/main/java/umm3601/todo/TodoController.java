@@ -166,8 +166,30 @@ public class TodoController {
         return returnString;
     }
 
+    public long ownerTotal(String owner) {
+        Document countDoc = new Document();
+        countDoc.append("owner", owner);
+        return todoCollection.count(countDoc);
+    }
 
+    public long ownerComplete(String owner) {
+        Document countDoc = new Document();
+        countDoc.append("owner", owner);
+        countDoc.append("status", true);
+        return todoCollection.count(countDoc);
+    }
 
+    public String ownersPercentComplete(List<String> owners) {
+        String returnString = "";
+        for(int i = 0; i < owners.size(); i++) {
+            String owner = owners.get(i);
+            returnString = returnString + "\"" + owner + "\"" + " : " + (float)ownerComplete(owner)/(float)ownerTotal(owner);
+            if(i != owners.size() - 1) {
+                returnString = returnString + ",";
+            }
+        }
+        return returnString;
+    }
 
 
 //    public List<Long> returnNumCompleteCategory(List<String> allCategories) {
@@ -201,9 +223,11 @@ public class TodoController {
 //        }
         System.err.println(JSON.serialize(eachUniqueInField("$category")));
         List<String> allTheCategories = eachUniqueInField("$category");
+        List<String> allTheOwners = eachUniqueInField("$owner");
 
         String returnString = "{\"percentToDosComplete\": " + JSON.serialize(percentComplete) + ","
-                + "\"categoriesPercentCompelete\": {" + categoriesPercentComplete(allTheCategories) + "}}";
+                + "\"categoriesPercentComplete\": {" + categoriesPercentComplete(allTheCategories) + "}," +
+                "\"ownersPercentComplete\": {" + ownersPercentComplete(allTheOwners) +"}" + "}";
         return returnString;
     }
 
