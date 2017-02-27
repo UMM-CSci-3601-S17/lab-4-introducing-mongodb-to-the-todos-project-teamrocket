@@ -133,7 +133,6 @@ public class TodoController {
         return allCategories;
     }
 
-            /// below is a list of counts for the summary of todos to calculate percentages.
     public long returnNumComplete() {
         Document countDoc = new Document();
         countDoc.append("status", true);
