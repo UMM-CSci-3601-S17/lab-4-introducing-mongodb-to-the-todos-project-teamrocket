@@ -42,17 +42,17 @@ public class TodoController {
         Bson bodyFilter;
 
 
-        if (queryParams.containsKey("owner")) {
+        if (queryParams.containsKey("owner") && !queryParams.get("owner")[0].equals("")) {
             String targetOwner = queryParams.get("owner")[0];
             filterDoc = filterDoc.append("owner", targetOwner);
         }
 
-        if (queryParams.containsKey("category")) {
+        if (queryParams.containsKey("category") && !queryParams.get("category")[0].equals("")) {
             String targetCategory = queryParams.get("category")[0];
             filterDoc = filterDoc.append("category", targetCategory);
         }
 
-        if (queryParams.containsKey("status")) {
+        if (queryParams.containsKey("status") && !queryParams.get("status")[0].equals("")) {
             boolean targetStatus = queryParams.get("status")[0].equals("complete");
             filterDoc = filterDoc.append("status", targetStatus);
         }
@@ -69,7 +69,7 @@ public class TodoController {
 
         FindIterable<Document> matchingTodos;
 
-        if (queryParams.containsKey("orderBy")) {
+        if (queryParams.containsKey("orderBy") && !queryParams.get("orderBy")[0].equals("")) {
             String targetOrder = queryParams.get("orderBy")[0];
             matchingTodos = todoCollection.find(and(filterDoc, bodyFilter)).sort(orderBy(ascending(targetOrder)));
         } else {
@@ -104,20 +104,6 @@ public class TodoController {
         }
         return returnval;
     }
-
-    //    // Get the average age of all todos by company
-//    public String getAverageAgeByCompany() {
-//        AggregateIterable<Document> documents
-//                = todoCollection.aggregate(
-//                Arrays.asList(
-//                        Aggregates.group("$company",
-//                                Accumulators.avg("averageAge", "$age")),
-//                        Aggregates.sort(Sorts.ascending("_id"))
-//                    public String getAverageAgeByCompany() {));
-//        System.err.println(JSON.serialize(documents));
-//        return JSON.serialize(documents);
-//    }
-
 
 
     public List<String> eachUniqueInField(String field) {
