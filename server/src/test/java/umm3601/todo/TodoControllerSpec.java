@@ -246,6 +246,15 @@ public class TodoControllerSpec {
                 0, todoController.fieldComplete("owner", "Roberta"));
     }
 
+    @Test
+    public void ownersPercentCompleteT() {
+        String actualResults1 = todoController.ownersPercentComplete(Arrays.asList("Fry", "Blanche", "Workman", "Roberta"));
+        String expectedResults1 = "\"Fry\" : 1.0,\"Blanche\" : 1.0,\"Workman\" : 1.0,\"Roberta\" : 0.0";
+        assertEquals("Should return percent complete for each owner",
+                expectedResults1, actualResults1);
+    }
+
+
 
 
 
