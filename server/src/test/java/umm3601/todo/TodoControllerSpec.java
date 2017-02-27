@@ -254,6 +254,16 @@ public class TodoControllerSpec {
                 expectedResults1, actualResults1);
     }
 
+    @Test
+    public void todoSummaryT() {
+        String actualResults1 = todoController.todoSummary();
+        String expectedResults1 = "{\"percentToDosComplete\": 0.75,\"categoriesPercentComplete\": " +
+                "{\"groceries\" : 0.5,\"video games\" : 1.0,\"homework\" : 1.0},\"ownersPercentComplete\": " +
+                "{\"Roberta\" : 0.0,\"Workman\" : 1.0,\"Blanche\" : 1.0,\"Fry\" : 1.0}}";
+        assertEquals("Should return The summary for this set of To-dos",
+                expectedResults1, actualResults1);
+    }
+
 
 
 
