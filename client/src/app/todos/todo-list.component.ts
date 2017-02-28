@@ -9,18 +9,18 @@ import {Todo} from "./todo";
 
 export class TodoListComponent {
     public todos: Todo[] = [];
-    public owner = "";
-    public bodyContains = "";
-    public category = "";
-    public limit = "";
-    public todoStatus = "";
-    public order = "";
+    private owner = "";
+    private bodyContains = "";
+    private category = "";
+    private limit = "";
+    private todoStatus = "";
+    private order = "";
 
     constructor(private todoListService: TodoListService) {
     }
 
 
-    public clicked(owner: string, status: string, category: string, body: string, orderBy: string, limit: string): void {
+    public getTodos(owner: string, status: string, category: string, body: string, orderBy: string, limit: string): void {
 
         this.todoListService.filterTodos(owner, body, status, category, orderBy, limit).subscribe(
             todos => {
@@ -32,9 +32,9 @@ export class TodoListComponent {
         );
     }
 
-    public onKey(event: any) {
+    private onKey(event: any) {
         if (event.key === "Enter") {
-            this.clicked(this.owner, this.todoStatus, this.category, this.bodyContains, this.order, this.limit);
+            this.getTodos(this.owner, this.todoStatus, this.category, this.bodyContains, this.order, this.limit);
         }
     }
 }

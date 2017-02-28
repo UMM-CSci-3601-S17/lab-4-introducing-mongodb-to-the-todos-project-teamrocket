@@ -19,7 +19,7 @@
             <option value = "body">Body</option>
             <option value = "status">Status</option>
         </select>
-        <input #input type="button" value="Search" (click)="this.clicked(owner, todoStatus, category,
+        <input #input type="button" value="Search" (click)="this.getTodos(owner, todoStatus, category,
         bodyContains, order, limit)">
 
     </li>
