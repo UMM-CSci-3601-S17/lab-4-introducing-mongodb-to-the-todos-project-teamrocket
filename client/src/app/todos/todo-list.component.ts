@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { TodoListService } from "./todo-list.service";
-import { Todo } from "./todo";
+import {Component, OnInit} from '@angular/core';
+import {TodoListService} from "./todo-list.service";
+import {Todo} from "./todo";
 
 @Component({
     selector: 'todo-list-component',
@@ -22,15 +22,14 @@ export class TodoListComponent {
 
     public clicked(owner: string, status: string, category: string, body: string, orderBy: string, limit: string): void {
 
-
         this.todoListService.filterTodos(owner, body, status, category, orderBy, limit).subscribe(
-            todos => { this.todos = todos;
+            todos => {
+                this.todos = todos;
             },
             err => {
                 console.log(err);
             }
         );
-
     }
 
     public onKey(event: any) {
