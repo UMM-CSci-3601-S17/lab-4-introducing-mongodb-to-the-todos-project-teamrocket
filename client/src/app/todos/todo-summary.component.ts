@@ -20,8 +20,7 @@ export class TodoSummaryComponent implements OnInit {
 
     ngOnInit(): void {
         this.http.request(API_URL + "todoSummary").map(res => res.json()).subscribe(
-            todoSum => { this.todoSummary = todoSum;
-                        console.log("You made it here");},
+            todoSum => this.todoSummary = todoSum,
             err => {
 
                 console.log(err);
