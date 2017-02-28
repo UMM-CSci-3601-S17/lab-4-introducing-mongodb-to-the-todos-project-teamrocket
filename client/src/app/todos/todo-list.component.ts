@@ -32,7 +32,7 @@ export class TodoListComponent implements OnInit {
             })
     }
 
-    public clicked(owner: string, status: string, category: string, body: string, orderBy: string, limit: string): Todo[] {
+    public clicked(owner: string, status: string, category: string, body: string, orderBy: string, limit: string): void {
 
 
         this.todoListService.filterTodos(owner, body, status, category, orderBy, limit).subscribe(
@@ -43,6 +43,5 @@ export class TodoListComponent implements OnInit {
             }
         );
 
-        return this.newTodos;
     }
 }
