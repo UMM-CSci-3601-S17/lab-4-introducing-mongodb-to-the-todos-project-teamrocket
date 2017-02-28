@@ -44,12 +44,22 @@ describe("the getTodo method", () => {
                         status: true,
                         category: "Frogs, Inc.",
                         body: "jamie@frogs.com"
+                    },
+                    {
+                        id: "jamie_id2",
+                        owner: "Jamie",
+                        status: false,
+                        category: "cats, Inc.",
+                        body: "jamie@frogs.com"
                     }
                 ];
 
 
                 if (owner !== "") {
-                    allTodos = allTodos.filter( todo => todo.owner === owner);
+                    allTodos = allTodos.filter(todo => todo.owner === owner);
+                }
+                if (body !== "") {
+                    allTodos = allTodos.filter(todo => todo.body.indexOf(body) !== -1);
                 }
 
                 return Observable.of(allTodos);
@@ -57,8 +67,8 @@ describe("the getTodo method", () => {
 
         };
         TestBed.configureTestingModule({
-            imports: [ HttpModule ],
-            declarations: [ TodoListComponent, TodoSummaryComponent],
+            imports: [HttpModule],
+            declarations: [TodoListComponent, TodoSummaryComponent],
             // providers: [ TodoListService ],
             providers: [{provide: TodoListService, useValue: todoListServiceStub}]
         })
@@ -88,6 +98,98 @@ describe("the getTodo method", () => {
         }]);
     });
 
+    it("can return all todos", () => {
+
+        expect(todoList.todos).toEqual([]);
+
+        todoList.getTodos("", "", "", "", "", "");
+
+        expect(todoList.todos).toEqual([
+            {
+                id: "chris_id",
+                owner: "Chris",
+                status: true,
+                category: "UMM",
+                body: "chris@this.that"
+            },
+            {
+                id: "pat_id",
+                owner: "Pat",
+                status: false,
+                category: "IBM",
+                body: "pat@something.com"
+            },
+            {
+                id: "jamie_id",
+                owner: "Jamie",
+                status: true,
+                category: "Frogs, Inc.",
+                body: "jamie@frogs.com"
+            },
+            {
+                id: "jamie_id2",
+                owner: "Jamie",
+                status: false,
+                category: "cats, Inc.",
+                body: "jamie@frogs.com"
+            }
+        ]);
+    });
+
+    it("can fetch by body", () => {
+
+        expect(todoList.todos).toEqual([]);
+
+        todoList.getTodos("", "", "", "com", "", "");
+
+        expect(todoList.todos).toEqual([
+            {
+                id: "pat_id",
+                owner: "Pat",
+                status: false,
+                category: "IBM",
+                body: "pat@something.com"
+            },
+            {
+                id: "jamie_id",
+                owner: "Jamie",
+                status: true,
+                category: "Frogs, Inc.",
+                body: "jamie@frogs.com"
+            },
+            {
+                id: "jamie_id2",
+                owner: "Jamie",
+                status: false,
+                category: "cats, Inc.",
+                body: "jamie@frogs.com"
+            }
+        ]);
+
+    });
+
+    it("can fetch by body and owner together", () => {
+
+        expect(todoList.todos).toEqual([]);
+
+        todoList.getTodos("Jamie", "", "", "com", "", "");
+
+        expect(todoList.todos).toEqual([
+            {
+                id: "jamie_id",
+                owner: "Jamie",
+                status: true,
+                category: "Frogs, Inc.",
+                body: "jamie@frogs.com"
+            },
+            {
+                id: "jamie_id2",
+                owner: "Jamie",
+                status: false,
+                category: "cats, Inc.",
+                body: "jamie@frogs.com"
+            }]);
+    });
 
 });
 
