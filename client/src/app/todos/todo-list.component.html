@@ -1,11 +1,13 @@
 <ul class="list-group">
-    <todo-summary-component></todo-summary-component>
+    <li class="list-group-item list-group-item-info">
+        <todo-summary-component></todo-summary-component>
+    </li>
     <li class="list-group-item list-group-item-info">
         <input #input type="text" placeholder="Owner" (input)="owner = $event.target.value">
         <input #input type="text" placeholder="Category" (input)="category = $event.target.value">
         <input #input type="text" placeholder="Filter by Body" (input)="bodyContains = $event.target.value">
         <input #input type="text" placeholder="Limit" (input)="limit = $event.target.value">
-        <select #input  (input) = "todoStatus= $event.target.value">
+        <select #input  (input) = "todoStatus = $event.target.value">
             <option value = "">Status</option>
             <option value = "complete">Complete</option>
             <option value = "incomplete">Incomplete</option>
