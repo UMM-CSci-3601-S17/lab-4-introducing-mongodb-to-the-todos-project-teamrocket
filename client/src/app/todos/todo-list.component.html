@@ -25,7 +25,9 @@
     </li>
     <li *ngFor="let todo of newTodos" class="list-group-item">
         Owner: {{ todo.owner }} <br>
-        Status: {{ todo.status }} <br>
+        Status:
+        <span *ngIf="todo.status" class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+        <span *ngIf="!todo.status" class="glyphicon glyphicon-remove" aria-hidden="true"></span><br>
         Category: {{ todo.category }} <br>
         Body: {{ todo.body }}
     </li>
