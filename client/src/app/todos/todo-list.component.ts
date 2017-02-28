@@ -32,4 +32,10 @@ export class TodoListComponent {
         );
 
     }
+
+    public onKey(event: any) {
+        if (event.key === "Enter") {
+            this.clicked(this.owner, this.todoStatus, this.category, this.bodyContains, this.order, this.limit);
+        }
+    }
 }
